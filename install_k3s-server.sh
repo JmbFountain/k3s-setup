@@ -26,4 +26,8 @@ GITHUB_URL=https://github.com/kubernetes/dashboard/releases
 VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S ${GITHUB_URL}/latest -o /dev/null | sed -e 's|.*/||')
 k3s kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
 k3s kubectl create -f dashboard.admin-user.yml -f dashboard.admin-user-role.yml
-k3s kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token' > token.txt
+
+echo "--- KUBERNETES CONFIG ---"
+more /etc/rancher/k3s/k3s.yaml | sed -e "s/127\.0\.0\.1/$(hostname)/" | tee kubeconfig
+echo "--- DASHBOARD TOKEN ---"
+k3s kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token' | awk '{print $2}'  | tee token.txt
