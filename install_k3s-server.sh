@@ -5,7 +5,7 @@ INSTALL_K3S_EXEC="--disable servicelb"
 curl -sfL https://get.k3s.io | sh - \
 		  --cluster-cidr "172.30.0.0/16" \
 		  --service-cidr "172.31.0.0/16" \
-		  --cluster-dns  "172.31.0.10/16" \
+		  --cluster-dns  "172.31.0.10" \
 		  --cluster-domain "nathan.home"
 
 # Add helm repos for services
