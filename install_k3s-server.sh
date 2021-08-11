@@ -15,7 +15,8 @@ helm repo add longhorn https://charts.longhorn.io
 helm repo update
 
 # Install Services
-helm install metallb metallb/metallb -f metal-config.yml
+kubectl create namespace metallb-system
+helm install metallb metallb/metallb --namespace metallb-system -f metallb-config.yml
 
 kubectl create namespace longhorn-system
 helm install longhorn longhorn/longhorn --namespace longhorn-system
