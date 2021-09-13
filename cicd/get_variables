@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Modified from this tutorial: https://tannguyen.dev/2021/01/setting-up-a-simple-ci/cd-flow-with-k3s-and-gitlab/
+
+SERVICE_ACCOUNT=gitlab-cicd
+
+#kubectl create serviceaccount $SERVICE_ACCOUNT
+#kubectl create clusterrolebinding $SERVICE_ACCOUNT --clusterrole cluster-admin --serviceaccount default:$SERVICE_ACCOUNT
+
+KUBE_DEPLOY_SECRET_NAME=`kubectl get serviceaccount $SERVICE_ACCOUNT -o jsonpath='{.secrets[0].name}'`
+KUBE_HOST=`kubectl get ep -o jsonpath='{.items[0].subsets[0].addresses[0].ip}'`
+KUBE_API_TOKEN=`kubectl get secret $KUBE_DEPLOY_SECRET_NAME -o jsonpath='{.data.token}'|base64 --decode`
+KUBE_API_CERT=`kubectl get secret $KUBE_DEPLOY_SECRET_NAME -o jsonpath='{.data.ca\.crt}'|base64 --decode`
+print $KUBE_API_TOKEN
+print $KUBE_API_CERT

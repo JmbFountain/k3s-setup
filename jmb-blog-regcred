@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jmb-blog-regcred
+  namespace: awesomeapps
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaXRsYWIudmouaG9tZTo1MDUwIjogewoJCQkiYXV0aCI6ICJaMmwwYkdGaUxXUmxjR3h2ZVMxMGIydGxianBCZW1KVE4wTjNWRkZLVm1WRFVFTnlNbk5SVVE9PSIKCQl9
+Cgl9Cn0KCg==
+type: kubernetes.io/dockerconfigjson

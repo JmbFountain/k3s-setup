@@ -1,0 +1,89 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: rancher
+  namespace: cattle-system
+  uid: a82c4e80-8c9e-472d-ae6f-f6a454192731
+  resourceVersion: '1926727'
+  generation: 1
+  creationTimestamp: '2021-09-12T09:51:45Z'
+  labels:
+    app: rancher
+    app.kubernetes.io/managed-by: Helm
+    chart: rancher-2.6.0
+    heritage: Helm
+    release: rancher
+  annotations:
+    cert-manager.io/issuer: rancher
+    cert-manager.io/issuer-kind: Issuer
+    field.cattle.io/publicEndpoints: >-
+      [{"addresses":["172.16.0.186"],"port":443,"protocol":"HTTPS","serviceName":"cattle-system:rancher","ingressName":"cattle-system:rancher","hostname":"rancher.nathan.home","allNodes":false}]
+    meta.helm.sh/release-name: rancher
+    meta.helm.sh/release-namespace: cattle-system
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '30'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '1800'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '1800'
+  managedFields:
+    - manager: helm
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2021-09-12T09:51:45Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:cert-manager.io/issuer: {}
+            f:cert-manager.io/issuer-kind: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+            f:nginx.ingress.kubernetes.io/proxy-connect-timeout: {}
+            f:nginx.ingress.kubernetes.io/proxy-read-timeout: {}
+            f:nginx.ingress.kubernetes.io/proxy-send-timeout: {}
+          f:labels:
+            .: {}
+            f:app: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:chart: {}
+            f:heritage: {}
+            f:release: {}
+        f:spec:
+          f:rules: {}
+          f:tls: {}
+    - manager: traefik
+      operation: Update
+      apiVersion: extensions/v1beta1
+      time: '2021-09-12T09:51:45Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:loadBalancer:
+            f:ingress: {}
+    - manager: rancher
+      operation: Update
+      apiVersion: extensions/v1beta1
+      time: '2021-09-12T09:53:42Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:field.cattle.io/publicEndpoints: {}
+spec:
+  tls:
+    - hosts:
+        - rancher.nathan.home
+      secretName: tls-rancher-ingress
+  rules:
+    - host: rancher.nathan.home
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rancher
+                port:
+                  number: 80
+status:
+  loadBalancer:
+    ingress:
+      - ip: 172.16.0.186

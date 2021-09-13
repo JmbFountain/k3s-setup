@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmb-blog-deployment
+  labels:
+    app: jmb-blog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jmb-blog
+  template:
+    metadata:
+      labels:
+        app: jmb-blog
+    spec:
+      containers:
+      - name: jmb-blog
+        image: gitlab.vj.home:5050/johannes/www-jmbfountain-de:latest
+        ports:
+        - containerPort: 80
